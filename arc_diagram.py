@@ -1,5 +1,6 @@
 """
 Very simple application  for vizualizing the arc diagrams
+Mehdi Saman Booy
 """
 
 import matplotlib.pyplot as plt
