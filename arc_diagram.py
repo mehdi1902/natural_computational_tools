@@ -8,12 +8,12 @@ import numpy as np
 from sys import argv
 
 
-def _arc(i, j, width=1):
+def _arc(i, j, width=1, linestyle='-', color='black'):
 	"""
 	Creating a single arc from i to j
 	"""
-	# arc = Wedge(((i+j)/2., 0), (abs(i-j)/2.), 5, 175, linewidth=width, edgecolor='black', fill=False, linestyle='--')
-	return Arc(((i+j)/2., 0), abs(i-j), abs(i-j), 0, 0, 180, linewidth=width, edgecolor='black', fill=False, linestyle='--')
+	return Arc(((i+j)/2., 0), abs(i-j), abs(i-j), 0, 0, 180, linewidth=width, 
+		edgecolor=color, fill=False, linestyle=linestyle)
 
 def _circle(i, r=.05):
 	"""
@@ -21,7 +21,7 @@ def _circle(i, r=.05):
 	"""
 	return Circle((i, 0), r, fill=True, color='black')
 
-def arc_diagram(x):
+def arc_diagram(x, linestyle='-', color='black', width=.5):
 	ax = plt.gca()
 	plt.plot([0, len(x)-1], [0, 0], color='black', linewidth=.7)
 	plt.axis('off')
@@ -29,7 +29,7 @@ def arc_diagram(x):
 		j = x[i]
 		ax.add_patch(_circle(i))
 		if j != -1:
-			c = _arc(i, j)
+			c = _arc(i, j, width=width, linestyle=linestyle, color=color)
 			ax.add_patch(c)
 	
 	plt.axis('scaled')
@@ -38,5 +38,5 @@ def arc_diagram(x):
 
 if __name__ == '__main__':
 	a = [10, 9, 8, -1, -1, -1, -1, -1, 2, 1, 0, -1, -1, -1, -1, -1, -1, 22, 21, 20, 19, 18, 17]
-	arc_diagram(a)
+	arc_diagram(a, width=.8)
 
