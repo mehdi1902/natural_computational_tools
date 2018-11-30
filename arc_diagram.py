@@ -23,7 +23,9 @@ def _circle(i, r=.05):
 	return Circle((i, 0), r, fill=True, color='black')
 
 def arc_diagram(x, linestyle='-', color='black', width=.5):
+	plt.clf()
 	ax = plt.gca()
+	
 	plt.plot([0, len(x)-1], [0, 0], color='black', linewidth=.7)
 	plt.axis('off')
 	for i in range(len(x)):
@@ -34,10 +36,16 @@ def arc_diagram(x, linestyle='-', color='black', width=.5):
 			ax.add_patch(c)
 	
 	plt.axis('scaled')
-	plt.show()
+	return ax
+	
 
 
 if __name__ == '__main__':
-	a = [10, 9, 8, -1, -1, -1, -1, -1, 2, 1, 0, -1, -1, -1, -1, -1, -1, 22, 21, 20, 19, 18, 17]
-	arc_diagram(a, width=.8)
+	a = [10, 9, 8, -1, 14, 13, -1, -1, 2, 1, 0, -1, -1, 5, 4, -1, -1, 22, 21, 20, 19, 18, 17]
+	a = [1, 0, -1, 15, 17, 7, -1, 5, -1, -1, 13, -1, -1, 10, 16, 3, 14, 4, -1, -1]
+	a = [1, 0, 19, -1, -1, 17, -1, -1, 13, 18, 16, 15, -1, 8, -1, 11, 10, 5, 9, 2]
+	a = [3, 4, -1, 0, 1, 12, -1, 10, -1, 17, 7, -1, 5, -1, 15, 14, -1, 9, -1, -1]
+	ax = arc_diagram(a, width=.8, linestyle='--')
+	plt.show()
+	# plt.savefig('a.png')
 
