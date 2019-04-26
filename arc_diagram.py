@@ -1,6 +1,6 @@
 """
 Very simple application  for vizualizing the arc diagrams
-Mehdi Saman Booy
+@ Mehdi Saman Booy
 """
 
 import matplotlib.pyplot as plt
@@ -22,7 +22,11 @@ def _circle(i, r=.05):
 	"""
 	return Circle((i, 0), r, fill=True, color='black')
 
-def arc_diagram(x, linestyle='-', color='black', width=.5):
+def arc_diagram(x, linestyle='-', color='black', width=.5, self_loop='same'):
+	"""
+	self_loop (str): 'same' means you are showing self-loop of i with i
+					 '-1' means you are showing self0loop of i with -1
+	"""
 	plt.clf()
 	ax = plt.gca()
 	
@@ -31,7 +35,8 @@ def arc_diagram(x, linestyle='-', color='black', width=.5):
 	for i in range(len(x)):
 		j = x[i]
 		ax.add_patch(_circle(i))
-		if j != -1:
+		sl_val = -1 if self_loop=='-1' else i
+		if j != sl_val:
 			c = _arc(i, j, width=width, linestyle=linestyle, color=color)
 			ax.add_patch(c)
 	
@@ -39,13 +44,31 @@ def arc_diagram(x, linestyle='-', color='black', width=.5):
 	return ax
 	
 
+def phrantheses_to_pairing_list(str, self_loop='same'):
+	N = len(str)
+	pairing = [0] * N
+	stack = []
+	for (i, s) in enumerate(str):
+		if s == ')':
+			j = stack[-1]
+			stack = stack[:-1]
+			pairing[i] = j
+			pairing[j] = i
+		elif s == '(':
+			stack.append(i)
+		else:
+			sl_val = -1 if self_loop=='-1' else i
+			pairing[i] = sl_val
+	return list(pairing)
+
 
 if __name__ == '__main__':
-	a = [10, 9, 8, -1, 14, 13, -1, -1, 2, 1, 0, -1, -1, 5, 4, -1, -1, 22, 21, 20, 19, 18, 17]
-	a = [1, 0, -1, 15, 17, 7, -1, 5, -1, -1, 13, -1, -1, 10, 16, 3, 14, 4, -1, -1]
-	a = [1, 0, 19, -1, -1, 17, -1, -1, 13, 18, 16, 15, -1, 8, -1, 11, 10, 5, 9, 2]
-	a = [3, 4, -1, 0, 1, 12, -1, 10, -1, 17, 7, -1, 5, -1, 15, 14, -1, 9, -1, -1]
-	ax = arc_diagram(a, width=.8, linestyle='--')
-	plt.show()
-	# plt.savefig('a.png')
+	d1 = '((((....))))'
+	d2 = '..((((..))))'
 
+	for i in [d1, d2]:
+		plt.figure()
+		ax = arc_diagram(phrantheses_to_pairing_list(i), width=.8, linestyle='--')
+	
+	plt.show()
+	
